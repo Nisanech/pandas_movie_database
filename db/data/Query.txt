@@ -1,0 +1,190 @@
+-- Crear base de datos
+
+CREATE SCHEMA IF NOT EXISTS `movie_data` DEFAULT CHARACTER SET UTF8;
+USE `movie_data`;
+
+-- Crear tabla no relacionada
+CREATE TABLE IF NOT EXISTS `movie_data`.`actor` (
+	`act_id` INT NOT NULL AUTO_INCREMENT,
+    `act_fname` CHAR(20),
+    `act_lname` CHAR(20),
+    `act_gender` CHAR(1),
+    PRIMARY KEY (`act_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`director` (
+	`dir_id` INT NOT NULL AUTO_INCREMENT,
+    `dir_fname` CHAR(20),
+    `dir_lname` CHAR(20),
+    PRIMARY KEY (`dir_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`reviewer` (
+	`rev_id` INT NOT NULL AUTO_INCREMENT,
+    `rev_name` CHAR(30),
+    PRIMARY KEY (`rev_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`genres` (
+	`gen_id` INT NOT NULL AUTO_INCREMENT,
+    `gen_title` CHAR(20),
+    PRIMARY KEY (`gen_id`)
+);
+
+-- Crear tablas relacionadas
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`movie` (
+	`mov_id` INT NOT NULL AUTO_INCREMENT,
+    `mov_title` CHAR(50),
+    `mov_year` INT,
+    `mov_time` INT,
+    `mov_lang` CHAR(50),
+    `mov_dt_rel` CHAR(20),
+    `mov_rel_country` CHAR(5),
+    PRIMARY KEY (`mov_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`movie_direction` (
+	`dir_id` INT not null,
+    `mov_id` INT not null,
+	FOREIGN KEY (`dir_id`)
+	REFERENCES `movie_data`.`director` (`dir_id`),
+    FOREIGN KEY (`mov_id`)
+	REFERENCES `movie_data`.`movie` (`mov_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`movie_cast` (
+	`act_id` INT not null,
+    `mov_id` INT not null,
+    `rol` CHAR(30),
+	FOREIGN KEY (`act_id`)
+	REFERENCES `movie_data`.`actor` (`act_id`),
+    FOREIGN KEY (`mov_id`)
+	REFERENCES `movie_data`.`movie` (`mov_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`movie_genres` (
+	`mov_id` INT not null,
+    `gen_id` INT not null,
+    FOREIGN KEY (`mov_id`)
+	REFERENCES `movie_data`.`movie` (`mov_id`),
+    FOREIGN KEY (`gen_id`)
+	REFERENCES `movie_data`.`genres` (`gen_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `movie_data`.`rating` (
+	`mov_id` INT not null,
+    `rev_id` INT not null,
+    `rev_stars` INT,
+    `num_o_ratings` INT,
+    FOREIGN KEY (`mov_id`)
+	REFERENCES `movie_data`.`movie` (`mov_id`),
+    FOREIGN KEY (`rev_id`)
+	REFERENCES `movie_data`.`reviewer` (`rev_id`)
+);
+
+-- Insertar datos
+INSERT INTO `prueba`.`actor` (
+	`act_id`,
+    `act_fname`,
+    `act_lname`,
+    `act_gender`
+)
+VALUES
+(
+	'1',
+    'Diego',
+    'Rojas',
+    'M'
+),
+(
+	'2',
+    'Yeni',
+    'Castro',
+    'F'
+);
+
+-- Ver estrctura de la tabla
+-- EXPLAIN info;
+
+-- Todos los datos
+-- SELECT * FROM info;
+
+-- Algunas columnas
+-- SELECT mov_title, mov_year FROM info;
+
+-- Algunas columnas ordenadas por
+-- SELECT mov_title, mov_year FROM info ORDER BY mov_title;
+
+-- Algunas columnas ordenadas por y limitar registros
+-- SELECT mov_title, mov_year FROM info ORDER BY mov_title LIMIT 10;
+
+-- Algunas columnas ordenadas por y parámetro de búsqueda
+-- SELECT * FROM info WHERE mov_year = 1995;
+
+-- Actualizar registros de la tabla
+-- UPDATE info SET mov_rel_country = 'COL' WHERE mov_id = 908;
+-- SELECT * FROM info WHERE mov_id = 908;
+
+-- Eliminar registros
+-- DELETE FROM info WHERE mov_id = 908;
+
+-- Agregar columna a la tabla
+-- ALTER TABLE info ADD mor_view BOOLEAN;
+-- EXPLAIN info;
+
+-- Modificar nombre de la columna
+-- ALTER TABLE info CHANGE mor_view cost INT;
+-- EXPLAIN info;
+
+-- Eliminar columna
+-- ALTER TABLE info DROP COLUMN cost;
+-- EXPLAIN info;
+
+-- Ver tablas
+-- SHOW TABLES;
+
+-- CARGAR TODOS LOS DATOS
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\actor.txt' INTO TABLE actor FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\director.txt' INTO TABLE director FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\genres.txt' INTO TABLE genres FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\movie.txt' INTO TABLE movie FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\movie_cast.txt' INTO TABLE movie_cast FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\movie_direction.txt' INTO TABLE movie_direction FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\movie_genres.txt' INTO TABLE movie_genres FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\reviewer.txt' INTO TABLE reviewer FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+LOAD DATA INFILE 'D:\\DesarrolloWeb-SW\\ProgramateAcademy\\Bootcamp\\MovieDataBase\\rating.txt' INTO TABLE rating FIELDS TERMINATED BY '|' LINES TERMINATED BY '\r\n';
+
+
+1 Write a query in SQL to find the name and year of the movies.
+SELECT mov_title, mov_year
+FROM movie;
+
+3 Write a query in SQL to find the movie which was released in the year
+1999.
+
+SELECT mov_title
+FROM movie
+WHERE mov_year=1999;
+
+8 Write a query in SQL to find the titles of the movies with ID 905, 907, 917.
+SELECT mov_title
+FROM movie
+WHERE mov_id in (905, 907, 917);
+
+14 Write a query in SQL to find the movies which was released before
+1998.
+
+SELECT mov_title
+FROM movie
+WHERE mov_year<1998;
+
+40 Write a query in SQL to return the reviewer name, movie title, and stars in an order that reviewer 
+	name will come first, then by movie title, and lastly by number of stars.
+	
+	SELECT rev_name, mov_title, rev_stars
+FROM movie
+INNER JOIN rating ON movie.mov_id = rating.mov_id
+INNER JOIN reviewer ON reviewer.rev_id = rating.rev_id
+WHERE rev_name IS NOT NULL
+ORDER BY rev_name, mov_title, rev_stars;
