@@ -1,10 +1,16 @@
 # Análisis de Películas con Pandas
 
-![Python 3.12](https://www.python.org/)
-![Pandas](https://pandas.pydata.org/)
-![MySQL](https://www.mysql.com/)
-![Tkinter](https://docs.python.org/es/3/library/tkinter.html)
-![Docker](https://www.docker.com/)
+## Herramientas Usadas
+
+[Python 3.12](https://www.python.org/)
+
+[Pandas](https://pandas.pydata.org/)
+
+[MySQL](https://www.mysql.com/)
+
+[Tkinter](https://docs.python.org/es/3/library/tkinter.html)
+
+[Docker](https://www.docker.com/)
 
 ---
 
