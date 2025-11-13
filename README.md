@@ -41,22 +41,8 @@
     ```bash
       pip install -r requirements.txt
     ```
-
-4. **Construir la imagen de Docker**
-
-    Iniciar la aplicación de Docker Desktop y ejecutar el siguiente comando en la terminal:
-
-    ```bash
-      docker-compose build --no-cache
-    ```
-   
-    Una vez se construya la imagen, iniciar el contenedor de la base de datos:
-
-    ```bash
-      docker-compose up -d
-    ```
-   
-5. Crear en la raiz del proyecto el archivo `.env` con las siguientes variables de entorno:
+    
+4. Crear en la raiz del proyecto el archivo `.env` con las siguientes variables de entorno:
    
     ```
         DB_HOST=localhost
@@ -71,6 +57,20 @@
         MYSQL_USER=movieuser
         MYSQL_PASSWORD=moviepassword
    ```
+
+5. **Construir la imagen de Docker**
+
+    Iniciar la aplicación de Docker Desktop y ejecutar el siguiente comando en la terminal:
+
+    ```bash
+      docker-compose build --no-cache
+    ```
+   
+    Una vez se construya la imagen, iniciar el contenedor de la base de datos:
+
+    ```bash
+      docker-compose up -d
+    ```
    
 ## Ejecutar el Proyecto
 
